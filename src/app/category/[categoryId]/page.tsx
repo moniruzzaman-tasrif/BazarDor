@@ -9,8 +9,6 @@ const res = await fetch(
   `https://api.api-store.workers.dev/api/bazardor/products?category=${categoryId}`,
 );
 const data= await res.json()
-
-
   return (
     <div className=" bg-[#F0F5F0] pb-10">
       <div className="max-w-7xl mx-auto  py-6 font-bengoli space-y-4">
