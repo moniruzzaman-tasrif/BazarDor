@@ -1,9 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
-import Link from "next/link";
-import { FcGoogle } from "react-icons/fc";
-import { FaGithub } from "react-icons/fa";
+import { signIn, signUp } from "@/lib/auth-client";
 import {
   Button,
   FieldError,
@@ -14,16 +11,22 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
-import { signIn, signUp } from "@/lib/auth-client";
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import React, { useState } from "react";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 export default function SignUpPage() {
   const [password, setPassword] = useState("");
 
-  const onSubmit =async (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const data =Object.fromEntries(formData.entries())as Record<string, string>;
+    const data = Object.fromEntries(formData.entries()) as Record<
+      string,
+      string
+    >;
 
     const { data: resData, error } = await signUp.email({
       name: data.name,
@@ -31,13 +34,18 @@ export default function SignUpPage() {
       password: data.password,
     });
 
-   redirect("profile");
+    redirect("profile");
     // alert("Form submitted successfully!");
   };
 
   const google = async () => {
     await signIn.social({
       provider: "google",
+    });
+  };
+  const github = async () => {
+    await signIn.social({
+      provider: "github",
     });
   };
 
@@ -170,6 +178,7 @@ export default function SignUpPage() {
 
           <Button
             variant="outline"
+            onClick={github}
             className="border-gray-200 rounded-xl h-11 text-xs text-gray-700 bg-white hover:bg-gray-50 flex items-center justify-center gap-2 shadow-none font-bold"
           >
             <FaGithub className="w-4 h-4 text-gray-900 " />

@@ -35,8 +35,13 @@ console.log(resData, error);
 const google= async()=>{
    await signIn.social({
      provider: "google",
-   });
 
+   });
+}
+const github= async()=>{
+   await signIn.social({
+     provider: "github",
+   });
 }
 
   return (
@@ -111,6 +116,7 @@ const google= async()=>{
 
           <Button
             variant="outline"
+            onClick={github}
             className="border-gray-200 rounded-xl h-11 text-xs text-gray-700 font-bold bg-white hover:bg-gray-50 flex items-center justify-center gap-2 shadow-none"
           >
             <FaGithub className="w-4 h-4 text-gray-900" />
