@@ -8,7 +8,7 @@ import Marquee from "react-fast-marquee";
 
 const MarquePage = async() => {
   const res = await fetch(
-    "https://api.api-store.workers.dev/api/bazardor/products",
+    "https://openapi.programming-hero.com/api/bazardor/products",
   );
   const data = await res.json()
 

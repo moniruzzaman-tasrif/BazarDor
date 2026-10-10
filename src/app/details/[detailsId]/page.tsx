@@ -8,7 +8,7 @@ const DetailsPage = async ({ params }: { params: Promise<{ detailsId:string}> })
   const { detailsId } = await params;
 
   const res = await fetch(
-    `https://api.api-store.workers.dev/api/bazardor/products/${detailsId}`,
+    `https://openapi.programming-hero.com/api/bazardor/products/${detailsId}`,
   );
   const data:IProductType = await res.json()
 

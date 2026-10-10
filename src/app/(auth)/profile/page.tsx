@@ -1,8 +1,10 @@
 "use client";
 
-import Link from "next/link";
-import { FiLogOut } from "react-icons/fi";
+import { signOut, useSession } from "@/lib/auth-client";
 import Image from "next/image";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { FiLogOut } from "react-icons/fi";
 
 export default function ProfilePage() {
   const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
@@ -10,8 +12,12 @@ export default function ProfilePage() {
     alert("Profile updated successfully!");
   };
 
-  const handleSignOut = () => {
-    alert("Signed out successfully!");
+  const { data: session } = useSession();
+  // console.log(session);
+
+  const handleSignOut = async () => {
+    await signOut();
+    redirect("sign-in");
   };
 
   return (
@@ -41,9 +47,9 @@ export default function ProfilePage() {
             </div>
             <div>
               <h2 className="text-base font-bold text-gray-900">
-                Rezwan Ahmed
+                {session?.user.name}
               </h2>
-              <p className="text-xs text-gray-500">rezwanahmed@gmail.com</p>
+              <p className="text-xs text-gray-500">{session?.user.email}</p>
             </div>
           </div>
           <button
