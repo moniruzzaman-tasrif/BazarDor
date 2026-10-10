@@ -14,7 +14,7 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
-import { signUp } from "@/lib/auth-client";
+import { signIn, signUp } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
 
 export default function SignUpPage() {
@@ -30,8 +30,15 @@ export default function SignUpPage() {
       email: data.email,
       password: data.password,
     });
+
    redirect("profile");
     // alert("Form submitted successfully!");
+  };
+
+  const google = async () => {
+    await signIn.social({
+      provider: "google",
+    });
   };
 
   return (
@@ -153,6 +160,7 @@ export default function SignUpPage() {
         {/* Social Logins */}
         <div className="grid grid-cols-2 gap-3">
           <Button
+            onClick={google}
             variant="outline"
             className="border-gray-200 rounded-xl h-11 text-xs text-gray-700 font-bold bg-white hover:bg-gray-50 flex items-center justify-center gap-2 shadow-none"
           >

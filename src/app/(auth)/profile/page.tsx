@@ -1,15 +1,21 @@
 "use client";
 
-import { signOut, useSession } from "@/lib/auth-client";
+import { signOut, updateUser, useSession } from "@/lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FiLogOut } from "react-icons/fi";
 
 export default function ProfilePage() {
-  const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    alert("Profile updated successfully!");
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+
+    const { data: resData, error } = await updateUser({
+      image: "",
+      name: typeof data.name === "string" ? data.name : undefined,
+    });
   };
 
   const { data: session } = useSession();
@@ -71,6 +77,7 @@ export default function ProfilePage() {
                 নাম
               </label>
               <input
+                name="name"
                 type="text"
                 placeholder="আপনার নাম লিখুন"
                 className="input input-bordered w-full h-11 rounded-xl bg-white border-gray-200 text-sm text-gray-800 focus:outline-none focus:border-emerald-600"

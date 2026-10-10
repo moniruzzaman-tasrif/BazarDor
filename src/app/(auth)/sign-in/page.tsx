@@ -27,12 +27,17 @@ const { data: resData, error } = await signIn.email({
   password: data.password,
   rememberMe: true, // If false, the user will be signed out when the browser is closed. (optional) (default: true)
   callbackURL:"/profile",
-
 });
+
 console.log(resData, error);
   };
 
+const google= async()=>{
+   await signIn.social({
+     provider: "google",
+   });
 
+}
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-[#F0F5F0] py-10 font-bengoli">
@@ -96,6 +101,7 @@ console.log(resData, error);
         {/* Social Logins */}
         <div className="grid grid-cols-2 gap-3">
           <Button
+            onClick={google}
             variant="outline"
             className="border-gray-200 rounded-xl h-11 text-xs text-gray-700 font-bold bg-white hover:bg-gray-50 flex items-center justify-center gap-2 shadow-none"
           >
