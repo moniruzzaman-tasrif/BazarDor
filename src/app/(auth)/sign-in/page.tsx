@@ -20,27 +20,50 @@ export default function SignInPage() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries())as Record<string, string>;
+    const data = Object.fromEntries(formData.entries()) as Record<
+      string,
+      string
+    >;
 
-const { data: resData, error } = await signIn.email({
-  email: data.email,
-  password: data.password,
-  rememberMe: true, // If false, the user will be signed out when the browser is closed. (optional) (default: true)
-  callbackURL:"/profile",
-});
-if (error?.message){
-  toast.error(error?.message, {
-    position: "top-center",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: false,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "light",
-    transition: Bounce,
-  });
-}else{
-    toast.success("submitted successfully!", {
+    const { data: resData, error } = await signIn.email({
+      email: data.email,
+      password: data.password,
+      rememberMe: true, // If false, the user will be signed out when the browser is closed. (optional) (default: true)
+      callbackURL: "/profile",
+    });
+    if (error?.message) {
+      toast.error(error?.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+        transition: Bounce,
+      });
+    } else {
+      toast.success("submitted successfully!", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+        transition: Bounce,
+      });
+    }
+    console.log(data);
+    console.log(resData, error);
+  };
+
+  const google = async () => {
+    await signIn.social({
+      provider: "google",
+    });
+
+    toast.success("google sign in successfully!", {
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,
@@ -50,50 +73,30 @@ if (error?.message){
       theme: "light",
       transition: Bounce,
     });
-}
-console.log(data);
-console.log(resData, error);
   };
 
-const google= async()=>{
-   await signIn.social({
-     provider: "google",
-
-   });
-
-       toast.success("google sign in successfully!", {
-         position: "top-center",
-         autoClose: 5000,
-         hideProgressBar: false,
-         closeOnClick: false,
-         pauseOnHover: true,
-         draggable: true,
-         theme: "light",
-         transition: Bounce,
-       });
-}
-const github= async()=>{
-   await signIn.social({
-     provider: "github",
-   });
-        toast.success("github sign in successfully!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          theme: "light",
-          transition: Bounce,
-        });
-}
+  const github = async () => {
+    await signIn.social({
+      provider: "github",
+    });
+    toast.success("github sign in successfully!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F0F5F0] py-10 font-bengoli">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F0F5F0] py-10 px-4 sm:px-6 font-bengoli">
       {/* Header Title & Subtitle */}
       <div className="text-center mb-6 space-y-1">
-        <h1 className="text-2xl font-bold text-gray-900">সাইন ইন</h1>
-        <p className="text-xs text-gray-500">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">সাইন ইন</h1>
+        <p className="text-xs text-gray-500 max-w-xs sm:max-w-none mx-auto">
           বিস্তারিত দাম, বাজার তুলনা ও প্রোফাইল দেখতে অ্যাকাউন্টে ঢুকুন।
         </p>
       </div>
@@ -110,7 +113,7 @@ const github= async()=>{
                 </Label>
                 <Input
                   placeholder="you@example.com"
-                  className="w-full border border-gray-200 rounded-xl h-11 bg-white hover:border-gray-300 focus-within:border-emerald-600 shadow-none text-sm text-gray-800 placeholder:text-gray-400"
+                  className="w-full border border-gray-200 rounded-xl h-11 bg-white hover:border-gray-300 focus-within:border-emerald-600 shadow-none text-sm text-gray-800 placeholder:text-gray-400 px-3"
                 />
                 <FieldError className="text-xs text-rose-500 mt-1" />
               </TextField>
@@ -118,11 +121,11 @@ const github= async()=>{
               {/* Password Field */}
               <TextField isRequired name="password" type="password">
                 <Label className="text-xs font-bold text-gray-700 block mb-1">
-                  পাসওয়ার্ড
+                  পাসওয়ার্ড
                 </Label>
                 <Input
                   placeholder="কমপক্ষে ৮ অক্ষর"
-                  className="w-full border border-gray-200 rounded-xl h-11 bg-white hover:border-gray-300 focus-within:border-emerald-600 shadow-none text-sm text-gray-800 placeholder:text-gray-400"
+                  className="w-full border border-gray-200 rounded-xl h-11 bg-white hover:border-gray-300 focus-within:border-emerald-600 shadow-none text-sm text-gray-800 placeholder:text-gray-400 px-3"
                 />
                 <FieldError className="text-xs text-rose-500 mt-1" />
               </TextField>
@@ -148,23 +151,23 @@ const github= async()=>{
         </div>
 
         {/* Social Logins */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Button
             onClick={google}
             variant="outline"
-            className="border-gray-200 rounded-xl h-11 text-xs text-gray-700 font-bold bg-white hover:bg-gray-50 flex items-center justify-center gap-2 shadow-none"
+            className="border-gray-200 rounded-xl h-11 text-xs text-gray-700 font-bold bg-white hover:bg-gray-50 flex items-center justify-center gap-2 shadow-none w-full"
           >
-            <FcGoogle className="w-4 h-4" />
-            Google দিয়ে চালিয়ে যান
+            <FcGoogle className="w-4 h-4 shrink-0" />
+            <span className="truncate">Google দিয়ে চালিয়ে যান</span>
           </Button>
 
           <Button
             variant="outline"
             onClick={github}
-            className="border-gray-200 rounded-xl h-11 text-xs text-gray-700 font-bold bg-white hover:bg-gray-50 flex items-center justify-center gap-2 shadow-none"
+            className="border-gray-200 rounded-xl h-11 text-xs text-gray-700 font-bold bg-white hover:bg-gray-50 flex items-center justify-center gap-2 shadow-none w-full"
           >
-            <FaGithub className="w-4 h-4 text-gray-900" />
-            GitHub দিয়ে চালিয়ে যান
+            <FaGithub className="w-4 h-4 text-gray-900 shrink-0" />
+            <span className="truncate">GitHub দিয়ে চালিয়ে যান</span>
           </Button>
         </div>
 
@@ -183,7 +186,7 @@ const github= async()=>{
       </div>
 
       {/* Footer Return Link */}
-      <div className="mt-6">
+      <div className="mt-6 text-center">
         <Link
           href="/"
           className="text-xs text-gray-400 hover:text-gray-600 transition-colors"

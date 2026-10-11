@@ -12,7 +12,7 @@ import {
   TextField,
 } from "@heroui/react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -20,6 +20,7 @@ import { Bounce, toast } from "react-toastify";
 
 export default function SignUpPage() {
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,22 +36,45 @@ export default function SignUpPage() {
       password: data.password,
     });
 
-console.log(data);
-console.log(resData, error);
+    console.log(data);
+    console.log(resData, error);
 
-if (error?.message){
-  toast.error(error?.message, {
-    position: "top-center",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: false,
-    pauseOnHover: true,
-    draggable: true,
-    theme: "light",
-    transition: Bounce,
-  });
-}else{
-    toast.success("submitted successfully!", {
+    if (error?.message) {
+      toast.error(error?.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+        transition: Bounce,
+      });
+    } else {
+      toast.success("submitted successfully!", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+        transition: Bounce,
+      });
+
+      setTimeout(() => {
+        router.push("/profile");
+        router.refresh();
+      }, 1000);
+    }
+  };
+
+  const google = async () => {
+    const googleAwad = await signIn.social({
+      provider: "google",
+    });
+    console.log(googleAwad);
+    toast.success("google sign in successfully!", {
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,
@@ -60,61 +84,39 @@ if (error?.message){
       theme: "light",
       transition: Bounce,
     });
-}
-
-
-    redirect("profile");
-    // alert("Form submitted successfully!");
   };
 
-  const google = async () => {
-   const googleAwad = await signIn.social({
-      provider: "google",
-    });
-    console.log(googleAwad);
-         toast.success("google sign in successfully!", {
-           position: "top-center",
-           autoClose: 5000,
-           hideProgressBar: false,
-           closeOnClick: false,
-           pauseOnHover: true,
-           draggable: true,
-           theme: "light",
-           transition: Bounce,
-         });
-  };
   const github = async () => {
-    const githubData =  await signIn.social({
+    const githubData = await signIn.social({
       provider: "github",
     });
     console.log(githubData.error?.message);
 
-     toast.success("github sign in successfully!", {
-       position: "top-center",
-       autoClose: 5000,
-       hideProgressBar: false,
-       closeOnClick: false,
-       pauseOnHover: true,
-       draggable: true,
-       theme: "light",
-       transition: Bounce,
-     });
-
+    toast.success("github sign in successfully!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+      transition: Bounce,
+    });
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F0F5F0] py-10 font-bengoli">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F0F5F0] py-10 px-4 sm:px-6 font-bengoli">
       {/* Header Title & Subtitle */}
       <div className="text-center mb-6 space-y-1">
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
           অ্যাকাউন্ট তৈরি করুন
         </h1>
-        <p className="text-xs text-gray-500">
+        <p className="text-xs text-gray-500 max-w-xs sm:max-w-none mx-auto">
           বিনা খরচে সাইন আপ করে সব বিস্তারিত দাম দেখুন।
         </p>
       </div>
 
-      {/* Main Card Container */}
+      {/* Main Card Container - Fully Responsive Width */}
       <div className="w-full max-w-md bg-white border border-gray-100 shadow-sm rounded-3xl p-6 sm:p-8">
         <Form className="w-full space-y-5" onSubmit={onSubmit}>
           <Fieldset className="space-y-4">
@@ -131,12 +133,12 @@ if (error?.message){
                   return null;
                 }}
               >
-                <Label className="text-xs  text-gray-700 block mb-1 font-bold">
+                <Label className="text-xs text-gray-700 block mb-1 font-bold">
                   নাম
                 </Label>
                 <Input
                   placeholder="যেমন: রহিম উদ্দিন"
-                  className="w-full border border-gray-200 rounded-xl h-11 bg-white hover:border-gray-300 focus-within:border-emerald-600 shadow-none text-sm text-gray-800 placeholder:text-gray-400"
+                  className="w-full border border-gray-200 rounded-xl h-11 bg-white hover:border-gray-300 focus-within:border-emerald-600 shadow-none text-sm text-gray-800 placeholder:text-gray-400 px-3"
                 />
                 <FieldError className="text-xs text-rose-500 mt-1" />
               </TextField>
@@ -153,7 +155,7 @@ if (error?.message){
                 </Label>
                 <Input
                   placeholder="you@example.com"
-                  className="w-full border border-gray-200 rounded-xl h-11 bg-white hover:border-gray-300 focus-within:border-emerald-600 shadow-none text-sm text-gray-800 placeholder:text-gray-400"
+                  className="w-full border border-gray-200 rounded-xl h-11 bg-white hover:border-gray-300 focus-within:border-emerald-600 shadow-none text-sm text-gray-800 placeholder:text-gray-400 px-3"
                 />
                 <FieldError className="text-xs text-rose-500 mt-1" />
               </TextField>
@@ -178,7 +180,7 @@ if (error?.message){
                 </Label>
                 <Input
                   placeholder="কমপক্ষে ৮ অক্ষর"
-                  className="w-full border border-gray-200 rounded-xl h-11 bg-white hover:border-gray-300 focus-within:border-emerald-600 shadow-none text-sm text-gray-800 placeholder:text-gray-400"
+                  className="w-full border border-gray-200 rounded-xl h-11 bg-white hover:border-gray-300 focus-within:border-emerald-600 shadow-none text-sm text-gray-800 placeholder:text-gray-400 px-3"
                 />
                 <FieldError className="text-xs text-rose-500 mt-1" />
               </TextField>
@@ -186,7 +188,7 @@ if (error?.message){
               {/* Confirm Password Field */}
               <TextField
                 isRequired
-                aria-label="  পাসওয়ার্ড নিশ্চিত করুন"
+                aria-label="পাসওয়ার্ড নিশ্চিত করুন"
                 name="confirmPassword"
                 type="password"
                 validate={value => {
@@ -201,7 +203,7 @@ if (error?.message){
                 </Label>
                 <Input
                   placeholder="আবার লিখুন"
-                  className="w-full border border-gray-200 rounded-xl h-11 bg-white hover:border-gray-300 focus-within:border-emerald-600 shadow-none text-sm text-gray-800 placeholder:text-gray-400"
+                  className="w-full border border-gray-200 rounded-xl h-11 bg-white hover:border-gray-300 focus-within:border-emerald-600 shadow-none text-sm text-gray-800 placeholder:text-gray-400 px-3"
                 />
                 <FieldError className="text-xs text-rose-500 mt-1" />
               </TextField>
@@ -226,24 +228,24 @@ if (error?.message){
           <div className="grow border-t border-gray-200"></div>
         </div>
 
-        {/* Social Logins */}
-        <div className="grid grid-cols-2 gap-3">
+        {/* Social Logins - Adaptive Stack on Mobile, Side-by-Side on Tablet+ */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <Button
             onClick={google}
             variant="outline"
-            className="border-gray-200 rounded-xl h-11 text-xs text-gray-700 font-bold bg-white hover:bg-gray-50 flex items-center justify-center gap-2 shadow-none"
+            className="border-gray-200 rounded-xl h-11 text-xs text-gray-700 font-bold bg-white hover:bg-gray-50 flex items-center justify-center gap-2 shadow-none w-full"
           >
-            <FcGoogle className="w-4 h-4" />
-            Google দিয়ে চালিয়ে যান
+            <FcGoogle className="w-4 h-4 shrink-0" />
+            <span className="truncate">Google দিয়ে চালিয়ে যান</span>
           </Button>
 
           <Button
             variant="outline"
             onClick={github}
-            className="border-gray-200 rounded-xl h-11 text-xs text-gray-700 bg-white hover:bg-gray-50 flex items-center justify-center gap-2 shadow-none font-bold"
+            className="border-gray-200 rounded-xl h-11 text-xs text-gray-700 bg-white hover:bg-gray-50 flex items-center justify-center gap-2 shadow-none font-bold w-full"
           >
-            <FaGithub className="w-4 h-4 text-gray-900 " />
-            GitHub দিয়ে চালিয়ে যান
+            <FaGithub className="w-4 h-4 text-gray-900 shrink-0" />
+            <span className="truncate">GitHub দিয়ে চালিয়ে যান</span>
           </Button>
         </div>
 
@@ -262,7 +264,7 @@ if (error?.message){
       </div>
 
       {/* Footer Return Link */}
-      <div className="mt-6">
+      <div className="mt-6 text-center">
         <Link
           href="/"
           className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
