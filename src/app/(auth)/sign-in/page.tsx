@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useState } from "react";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
@@ -14,21 +13,45 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
-import { signIn, useSession } from "@/lib/auth-client";
+import { signIn } from "@/lib/auth-client";
+import { Bounce, toast } from "react-toastify";
 
 export default function SignInPage() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries())as Record<string, string>;
-console.log(data);
+
 const { data: resData, error } = await signIn.email({
   email: data.email,
   password: data.password,
   rememberMe: true, // If false, the user will be signed out when the browser is closed. (optional) (default: true)
   callbackURL:"/profile",
 });
-
+if (error?.message){
+  toast.error(error?.message, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: false,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "light",
+    transition: Bounce,
+  });
+}else{
+    toast.success("submitted successfully!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+      transition: Bounce,
+    });
+}
+console.log(data);
 console.log(resData, error);
   };
 
@@ -37,11 +60,32 @@ const google= async()=>{
      provider: "google",
 
    });
+
+       toast.success("google sign in successfully!", {
+         position: "top-center",
+         autoClose: 5000,
+         hideProgressBar: false,
+         closeOnClick: false,
+         pauseOnHover: true,
+         draggable: true,
+         theme: "light",
+         transition: Bounce,
+       });
 }
 const github= async()=>{
    await signIn.social({
      provider: "github",
    });
+        toast.success("github sign in successfully!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+          transition: Bounce,
+        });
 }
 
   return (
@@ -129,7 +173,7 @@ const github= async()=>{
           <p className="text-xs text-gray-500">
             অ্যাকাউন্ট নেই?{" "}
             <Link
-              href="/signup"
+              href="/sign-up"
               className="text-[#00873E] font-medium hover:underline"
             >
               সাইন আপ করুন

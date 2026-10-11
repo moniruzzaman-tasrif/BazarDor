@@ -13,7 +13,6 @@ export default function ProfilePage() {
     const data = Object.fromEntries(formData.entries());
 
     const { data: resData, error } = await updateUser({
-      image: "",
       name: typeof data.name === "string" ? data.name : undefined,
     });
   };
@@ -43,7 +42,10 @@ export default function ProfilePage() {
             <div className="avatar">
               <div className="w-14 h-14 rounded-full overflow-hidden bg-gray-200">
                 <Image
-                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=250&auto=format&fit=crop"
+                  src={
+                    session?.user.image ??
+                    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=250&auto=format&fit=crop"
+                  }
                   alt="Profile"
                   className="object-cover w-full h-full"
                   width={500}

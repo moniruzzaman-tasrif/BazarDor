@@ -16,6 +16,7 @@ import { redirect } from "next/navigation";
 import React, { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { Bounce, toast } from "react-toastify";
 
 export default function SignUpPage() {
   const [password, setPassword] = useState("");
@@ -34,6 +35,34 @@ export default function SignUpPage() {
       password: data.password,
     });
 
+console.log(data);
+console.log(resData, error);
+
+if (error?.message){
+  toast.error(error?.message, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: false,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "light",
+    transition: Bounce,
+  });
+}else{
+    toast.success("submitted successfully!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "light",
+      transition: Bounce,
+    });
+}
+
+
     redirect("profile");
     // alert("Form submitted successfully!");
   };
@@ -42,11 +71,32 @@ export default function SignUpPage() {
     await signIn.social({
       provider: "google",
     });
+         toast.success("google sign in successfully!", {
+           position: "top-center",
+           autoClose: 5000,
+           hideProgressBar: false,
+           closeOnClick: false,
+           pauseOnHover: true,
+           draggable: true,
+           theme: "light",
+           transition: Bounce,
+         });
   };
   const github = async () => {
     await signIn.social({
       provider: "github",
     });
+     toast.success("github sign in successfully!", {
+       position: "top-center",
+       autoClose: 5000,
+       hideProgressBar: false,
+       closeOnClick: false,
+       pauseOnHover: true,
+       draggable: true,
+       theme: "light",
+       transition: Bounce,
+     });
+
   };
 
   return (
@@ -69,6 +119,7 @@ export default function SignUpPage() {
               {/* Name Field */}
               <TextField
                 isRequired
+                aria-label="নাম"
                 name="name"
                 validate={value => {
                   if (value.length < 3) {
@@ -88,7 +139,12 @@ export default function SignUpPage() {
               </TextField>
 
               {/* Email Field */}
-              <TextField isRequired name="email" type="email">
+              <TextField
+                isRequired
+                aria-label="ইমেইল"
+                name="email"
+                type="email"
+              >
                 <Label className="text-xs font-bold text-gray-700 block mb-1">
                   ইমেইল
                 </Label>
@@ -102,6 +158,7 @@ export default function SignUpPage() {
               {/* Password Field */}
               <TextField
                 isRequired
+                aria-label="পাসওয়ার্ড"
                 name="password"
                 type="password"
                 value={password}
@@ -126,6 +183,7 @@ export default function SignUpPage() {
               {/* Confirm Password Field */}
               <TextField
                 isRequired
+                aria-label="  পাসওয়ার্ড নিশ্চিত করুন"
                 name="confirmPassword"
                 type="password"
                 validate={value => {
@@ -191,7 +249,7 @@ export default function SignUpPage() {
           <p className="text-xs text-gray-500">
             অ্যাকাউন্ট আছে?{" "}
             <Link
-              href="/signin"
+              href="/sign-in"
               className="text-[#00873E] font-medium hover:underline"
             >
               সাইন ইন করুন

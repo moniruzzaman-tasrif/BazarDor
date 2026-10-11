@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 
 const CategoryCard = ({ data }: { data : IProductType[]}) => {
+  
   return (
     <div>
       <div className="max-w-7xl mx-auto ">

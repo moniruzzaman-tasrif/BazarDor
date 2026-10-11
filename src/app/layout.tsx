@@ -7,6 +7,7 @@ import NavLinkPage from "@/component/NavLink";
 import { Suspense } from "react";
 import MarquePage from "@/component/Marquee";
 import Footer from "@/component/home/footer";
+import { ToastContainer } from "react-toastify";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,14 +42,26 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <NavBarPage />
         <Suspense
           fallback={
-            <div className="py-2 text-center text-gray-400">লোডিং...</div>
+            <div className="bg-[#FAFCFA] py-2.5 border-b border-gray-300 overflow-hidden">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center gap-6 animate-pulse">
+                {/* Render a few placeholder pills to mimic loading marquee items */}
+                {[1, 2, 3, 4, 5].map(item => (
+                  <div
+                    key={item}
+                    className="flex items-center gap-2 bg-gray-200/70 h-7 w-48 rounded-full shrink-0"
+                  />
+                ))}
+              </div>
+            </div>
           }
         >
           <NavLinkPage />
           <MarquePage></MarquePage>
         </Suspense>
+
         <main>{children}</main>
         <Footer></Footer>
+        <ToastContainer />
       </body>
     </html>
   );
