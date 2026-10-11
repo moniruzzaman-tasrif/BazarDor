@@ -78,7 +78,7 @@ Ensure your development environment meets the following requirements:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/bazardor.git
+   git clone https://github.com/moniruzzaman-tasrif/hat-bazar.git
    cd bazardor
    ```
 
