@@ -16,9 +16,9 @@ const MarquePage = async() => {
     <div className="bg-[#FAFCFA]   py-3 shadow-sm">
       <Marquee speed={100}>
         {data.map((item: IProductType) => (
-          <Link
+          <div
             key={item.id}
-            href={`/details/${item.category} `}
+
             className="flex gap-1 mr-5"
           >
             <span>{item.image}</span>
@@ -32,7 +32,7 @@ const MarquePage = async() => {
               {convertToBanglaNumber(item.change.pct)}
               {" %"}
             </p>
-          </Link>
+          </div>
         ))}
       </Marquee>
     </div>

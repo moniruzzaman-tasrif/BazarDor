@@ -68,9 +68,10 @@ if (error?.message){
   };
 
   const google = async () => {
-    await signIn.social({
+   const googleAwad = await signIn.social({
       provider: "google",
     });
+    console.log(googleAwad);
          toast.success("google sign in successfully!", {
            position: "top-center",
            autoClose: 5000,
@@ -83,9 +84,11 @@ if (error?.message){
          });
   };
   const github = async () => {
-    await signIn.social({
+    const githubData =  await signIn.social({
       provider: "github",
     });
+    console.log(githubData.error?.message);
+
      toast.success("github sign in successfully!", {
        position: "top-center",
        autoClose: 5000,
